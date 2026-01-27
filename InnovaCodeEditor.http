@@ -1,0 +1,6 @@
+@InnovaCodeEditor_HostAddress = http://localhost:5143
+
+GET {{InnovaCodeEditor_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,27 @@
+# Build results
+bin/
+obj/
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+# Visual Studio Code
+.vscode/
+# Rider
+.idea/
+# OS files
+.DS_Store
+Thumbs.db
+# Logs
+*.log
+# Publish outputs
+*.publish/
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+# Configuration transforms
+appsettings.Development.json
+appsettings.Production.json
+# Others
+*.dbmdl
+*.pdb
