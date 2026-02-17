@@ -7,6 +7,12 @@ namespace InnovaCodeEditor.Models
 {
     public class CodeSubmission
     {
-        public string Code { get; set; } = string.Empty;
+        public List<CodeFile> Files { get; set; } = new List<CodeFile>();
+    }
+
+    public class CodeFile
+    {
+        public string FileName { get; set; }
+        public string Code { get; set; }
     }
 }

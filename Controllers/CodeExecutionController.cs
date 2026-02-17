@@ -14,10 +14,18 @@ public class CodeExecutionController : ControllerBase
     [HttpPost("execute")]
     public IActionResult Execute([FromBody] CodeRequest request)
     {
-        if (string.IsNullOrWhiteSpace(request.Code))
-            return BadRequest("Code is empty");
+        if (request.Files == null || request.Files.Count == 0)
+            return BadRequest("No files provided");
 
-        var syntaxTree = CSharpSyntaxTree.ParseText(request.Code);
+        var syntaxTrees = new List<SyntaxTree>();
+        foreach (var file in request.Files)
+        {
+            if (string.IsNullOrWhiteSpace(file.Code))
+                continue;
+            syntaxTrees.Add(CSharpSyntaxTree.ParseText(file.Code, path: file.FileName));
+        }
+        if (syntaxTrees.Count == 0)
+            return BadRequest("No valid code provided");
 
         var references = new List<MetadataReference>
         {
@@ -32,7 +40,7 @@ public class CodeExecutionController : ControllerBase
 
         var compilation = CSharpCompilation.Create(
             assemblyName: "InMemoryAssembly",
-            syntaxTrees: new[] { syntaxTree },
+            syntaxTrees: syntaxTrees,
             references: references,
             options: new CSharpCompilationOptions(OutputKind.ConsoleApplication)
         );
