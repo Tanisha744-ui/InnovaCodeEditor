@@ -1,3 +1,4 @@
+using InnovaCodeEditor;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -28,5 +29,15 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.MapControllers();
+app.UseWebSockets();
+app.Map("/lsp", async context =>
+{
+    if (!context.WebSockets.IsWebSocketRequest)
+        return;
+
+    var socket = await context.WebSockets.AcceptWebSocketAsync();
+    var server = new CSharpLanguageServer(socket);
+    await server.StartAsync();
+});
 app.Run();
 
